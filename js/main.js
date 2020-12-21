@@ -13,6 +13,7 @@ game.setAttribute('height', getComputedStyle(game)['height'])
 // Get some Context. Game is an object that gets created when you have canvas tag. 
 let ctx = game.getContext('2d') // Object is called game.
 
+/* 
 // Modularizing creating a filled box. 
 let drawBox = (x, y, size, color) => {
     ctx.fillStyle = color
@@ -24,7 +25,7 @@ game.addEventListener('click', e => {
     console.log('🐶')
     // offsetX is the cursor location from your click.
     drawBox(e.offsetX, e.offsetY, 50, 'rebeccapurple')
-})
+}) */
 
 // drawBox(30, 30, 81, 'hotpink')
 
@@ -90,3 +91,15 @@ function Crawler(x, y, color, width, height) {
 // 'new Crawler' refers to creating a new object that the constructor function Crawler creates. 
 let hero = new Crawler(50, 50, 'hotpink', 60, 60)
 let ogre = new Crawler(10, 10, '#bada55', 40, 80)
+
+
+// Move the hero using clicks keys. 
+game.addEventListener('click', e => {
+    // Clear the board in the specified area below.
+    ctx.clearRect(0, 0, game.width, game.height)
+    // Want to draw the hero at offsetX and offsetY.
+    hero.x = e.offsetX
+    hero.y = e.offsetY
+    hero.render()
+    console.log('Drawing new hero')
+})
