@@ -3,9 +3,12 @@
 // Below is same as let game = document.getElementById('game')
 let movementDisplay = movement
 
-// Can only assign dimension attributes of canvas (with ID 'game') in either HTML or JavaScript.
-game.setAttribute('width', '800px')
-game.height = 400
+// Can only assign dimension attributes of canvas (with ID 'game') in either HTML or JavaScript. We chose to assign it here, in the JS.
+game.setAttribute('width', getComputedStyle(game)['width'])
+game.setAttribute('height', getComputedStyle(game)['height'])
+// game.width = getComputedStyle(game)['width']
+// game.height = getComputedStyle(game)['height']
+// game.height = 400
 
 // Get some Context. Game is an object that gets created when you have canvas tag. 
 let ctx = game.getContext('2d') // Object is called game.
@@ -16,7 +19,14 @@ let drawBox = (x, y, size, color) => {
     ctx.fillRect(x, y, size, size)
 }
 
-drawBox(30, 30, 81, 'hotpink')
+game.addEventListener('click', e => {
+    console.log(e)
+    console.log('🐶')
+    // offsetX is the cursor location from your click.
+    drawBox(e.offsetX, e.offsetY, 50, 'rebeccapurple')
+})
+
+// drawBox(30, 30, 81, 'hotpink')
 
 // // Do some drawing
 // // Fill color
@@ -62,6 +72,7 @@ hero.render() */
 // We capitalize Crawler because it's a function that creates a new object instead of returning a value. Hence, capital C. 
 // When we initiate a this.x, it basically means that we're creating an object called crawler with key / pair values we designate.
 // It's implied, but we can have an object initialized as crawler = {} as a line right before our constructor function.
+
 function Crawler(x, y, color, width, height) {
     this.x = x
     this.y = y
