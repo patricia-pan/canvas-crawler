@@ -80,7 +80,7 @@ function Crawler(x, y, color, width, height) {
     this.color = color
     this.width = width
     this.height = height
-    console.log('🐣')
+    console.log(`New object ${this} created 🐣`)
     this.alive = true
     this.render = function() {
         ctx.fillStyle = this.color
@@ -90,10 +90,10 @@ function Crawler(x, y, color, width, height) {
 
 // 'new Crawler' refers to creating a new object that the constructor function Crawler creates. 
 let hero = new Crawler(50, 50, 'hotpink', 60, 60)
-let ogre = new Crawler(10, 10, '#bada55', 40, 80)
+let ogre = new Crawler(400, 150, '#bada55', 40, 80)
 
 
-// Move the hero using clicks keys. 
+/* // Move the hero using clicks keys. 
 game.addEventListener('click', e => {
     // Clear the board in the specified area below.
     ctx.clearRect(0, 0, game.width, game.height)
@@ -102,4 +102,57 @@ game.addEventListener('click', e => {
     hero.y = e.offsetY
     hero.render()
     console.log('Drawing new hero')
-})
+}) */
+
+let gameLoop = () => {
+    // Clear the canvas
+    ctx.clearRect(0, 0, game.width, game.height)
+    // Display the x, y coordinates of our hero or other relevant Game State Info
+    movementDisplay.innerText = `X: ${hero.x}\nY: ${hero.y}` // \n for new line. 
+    // Check if the ogre is alive
+    if (ogre.alive) {
+        ogre.render()
+    }
+        // Render ogre
+        // Check for collision
+    // Render hero
+    hero.render()
+}
+
+let movementHandler = e => {
+    switch(e.key) {
+        case 'w': 
+            // Move up.
+            hero.y -= 10
+            break
+        case 'a': 
+            // Move left.
+            hero.x -= 10
+            break
+        case 's':
+            heryo.y + =10
+            // Move down.
+            break
+        case 'd':
+            // Move right.
+            hero.x += 10
+            break
+        default: 
+            console.log('This doesn\'t do anything!')
+    }
+    // if (e.key === 'w') {
+    //     hero.y -= 10
+    // } else if (e.key === 'a') {
+    //     // Hero moves left. 
+    // }
+}
+
+document.addEventListener('keypress', movementHandler)
+
+// Commenting this out for the sake of computer load.
+let gameInterval = setInterval(gameLoop, 30); // Since we want gameLoop to be able to be ended, we have to set it to a constant when using setInterval.
+
+// document.getElementById('btm-right').addEventListener('click', () => { // for if you want the game to run after clicking on the 'play the game' div box.
+//     console.log('Starting the game')
+//     gameInterval = setInterval(gameLoop, 30);
+// }) 
