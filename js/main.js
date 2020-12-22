@@ -80,7 +80,6 @@ function Crawler(x, y, color, width, height) {
     this.color = color
     this.width = width
     this.height = height
-    console.log(`New object ${this} created 🐣`)
     this.alive = true
     this.render = function() {
         ctx.fillStyle = this.color
@@ -105,11 +104,8 @@ game.addEventListener('click', e => {
 }) */
 
 let gameLoop = () => {
-    // Clear the canvas
-    ctx.clearRect(0, 0, game.width, game.height)
-    // Display the x, y coordinates of our hero or other relevant Game State Info
+    ctx.clearRect(0, 0, game.width, game.height) // Clear the canvas.
     movementDisplay.innerText = `X: ${hero.x}\nY: ${hero.y}` // \n for new line. 
-    // Check if the ogre is alive
     if (ogre.alive) {
         ogre.render()
     }
@@ -119,38 +115,39 @@ let gameLoop = () => {
     hero.render()
 }
 
+let detectHit = () => {
+    // If the hero's right > ogre's left, AND hero's left < ogre's right, then there's a collision.
+    if (hero.x + hero.width > ogre.x && 
+        hero.x < ogre.x + ogre.width) {
+            console.log('Collision on the x-axis.')
+        }
+}
+
 let movementHandler = e => {
     switch(e.key) {
         case 'w': 
-            // Move up.
-            hero.y -= 10
+            hero.y -= 10 // Move up.
             break
         case 'a': 
-            // Move left.
-            hero.x -= 10
+            hero.x -= 10 // Move left.
             break
         case 's':
-            heryo.y + =10
-            // Move down.
+            hero.y += 10 // Move down.
             break
-        case 'd':
-            // Move right.
+        case 'd': // Move right.
             hero.x += 10
             break
         default: 
             console.log('This doesn\'t do anything!')
     }
-    // if (e.key === 'w') {
-    //     hero.y -= 10
-    // } else if (e.key === 'a') {
-    //     // Hero moves left. 
-    // }
+    detectHit()
 }
 
 document.addEventListener('keypress', movementHandler)
 
-// Commenting this out for the sake of computer load.
-let gameInterval = setInterval(gameLoop, 30); // Since we want gameLoop to be able to be ended, we have to set it to a constant when using setInterval.
+// Commenting out the below line for the sake of computer load.
+let gameInterval = setInterval(gameLoop, 60); // Since we want gameLoop to be able to be ended, we have to set it to a constant when using setInterval.
+let stop = () => clearInterval(gameInterval)
 
 // document.getElementById('btm-right').addEventListener('click', () => { // for if you want the game to run after clicking on the 'play the game' div box.
 //     console.log('Starting the game')
