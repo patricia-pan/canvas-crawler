@@ -1,13 +1,15 @@
 // References to DOM elements I will use. 
 
 // Below is same as let game = document.getElementById('game')
+
 let movementDisplay = movement
+
 
 // Can only assign dimension attributes of canvas (with ID 'game') in either HTML or JavaScript. We chose to assign it here, in the JS.
 game.setAttribute('width', getComputedStyle(game)['width'])
 game.setAttribute('height', getComputedStyle(game)['height'])
-// game.width = getComputedStyle(game)['width']
-// game.height = getComputedStyle(game)['height']
+// game.width = getComputedStyle(game)['width'] // This line of code doesn't work because of timing.
+// game.height = getComputedStyle(game)['height'] // This line of code doesn't work because of timing.
 // game.height = 400
 
 // Get some Context. Game is an object that gets created when you have canvas tag. 
@@ -108,18 +110,19 @@ let gameLoop = () => {
     movementDisplay.innerText = `X: ${hero.x}\nY: ${hero.y}` // \n for new line. 
     if (ogre.alive) {
         ogre.render()
+        detectHit()
     }
-        // Render ogre
-        // Check for collision
-    // Render hero
     hero.render()
 }
 
 let detectHit = () => {
     // If the hero's right > ogre's left, AND hero's left < ogre's right, then there's a collision.
     if (hero.x + hero.width > ogre.x && 
-        hero.x < ogre.x + ogre.width) {
-            console.log('Collision on the x-axis.')
+        hero.x < ogre.x + ogre.width &&
+        hero.y < ogre.y + ogre.height &&
+        hero.y + hero.height > ogre.y) { 
+            ogre.alive = false
+            document.querySelector('#btm-right > h2').innerText = 'You Killed Shrek'
         }
 }
 
@@ -145,9 +148,9 @@ let movementHandler = e => {
 
 document.addEventListener('keypress', movementHandler)
 
-// Commenting out the below line for the sake of computer load.
 let gameInterval = setInterval(gameLoop, 60); // Since we want gameLoop to be able to be ended, we have to set it to a constant when using setInterval.
 let stop = () => clearInterval(gameInterval)
+
 
 // document.getElementById('btm-right').addEventListener('click', () => { // for if you want the game to run after clicking on the 'play the game' div box.
 //     console.log('Starting the game')
